@@ -9,9 +9,15 @@
  -----------------------------------------------------------------------------*/
 package mods.railcraft.common.carts;
 
+import buildcraft.api.BCItems;
+import buildcraft.api.BCItems.Energy;
+import buildcraft.api.core.BuildCraftAPI;
+import buildcraft.api.fuels.BuildcraftFuelRegistry;
+import buildcraft.api.fuels.IFuel;
 import mods.railcraft.client.render.carts.LocomotiveRenderType;
 import mods.railcraft.common.gui.EnumGui;
 import mods.railcraft.common.items.ItemTicket;
+import mods.railcraft.common.plugins.buildcraft.BuildcraftPlugin;
 import mods.railcraft.common.util.inventory.InvTools;
 import mods.railcraft.common.util.inventory.wrappers.InventoryMapper;
 import mods.railcraft.api.carts.IFluidCart;
@@ -39,11 +45,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Optional;
 
@@ -167,9 +175,12 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
     }
 
     public boolean isFuelValid(Fluid fluid) {
-        return Fluids.DIESEL.is(fluid);
+        //System.out.println(fluid.getName());
+        //System.out.println(FluidRegistry.getFluid("fuel_dense").getName());
 
-        // Fluids[] validFuels = {
+        //return Fluids.FUEL_DENSE.is(fluid);
+
+        Fluids[] validFuels = {
         //     Fluids.FUEL,
         //     Fluids.BIOFUEL,
         //     Fluids.BIOETHANOL,
@@ -179,19 +190,14 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
         //     Fluids.REFINED_OIL,
         //     Fluids.REFINED_FUEL,
         //     Fluids.REFINED_BIOFUEL,
-        //     Fluids.FUEL_DENSE,
-        //     Fluids.FUEL_MIXED_HEAVY,
-        //     Fluids.FUEL_LIGHT,
-        //     Fluids.FUEL_MIXED_LIGHT,
-        //     Fluids.FUEL_GASEOUS
-        // };
+             Fluids.FUEL_DENSE,
+             Fluids.FUEL_MIXED_HEAVY,
+             Fluids.FUEL_LIGHT,
+             Fluids.FUEL_MIXED_LIGHT,
+             Fluids.FUEL_GASEOUS
+        };
 
-        // for (Fluids fuel : validFuels) {
-        //     if (Fluids.areEqual(fluid, fuel.get(1))){
-        //         return true;
-        //     }
-        // }
-        // return false;
+        return Arrays.stream(validFuels).anyMatch(fuel -> Fluids.areEqual(fluid, fuel.get(1)));
     }
 
     @Override
@@ -248,13 +254,13 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
                         this.engine.setConsumption(2);
                         break;
                     case SLOWER:
-                        this.engine.setConsumption(4);
-                        break;
-                    case NORMAL:
                         this.engine.setConsumption(6);
                         break;
+                    case NORMAL:
+                        this.engine.setConsumption(10);
+                        break;
                     default:
-                        this.engine.setConsumption(8);
+                        this.engine.setConsumption(14);
                 }
             } else if (isIdle()) {
                 this.engine.setConsumption(1);
@@ -324,20 +330,21 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
 
     @Override
     public boolean canPassFluidRequests(FluidStack fluid) {
-        //return engine.getTankDiesel().getFluid().isFluidEqual(fluid);
-        return Fluids.DIESEL.is(fluid);
+        return engine.getTankDiesel().getFluid().isFluidEqual(fluid);
+        //return Fluids.DIESEL.is(fluid);
     }
 
     @Override
     public boolean canAcceptPushedFluid(EntityMinecart requester, FluidStack fluid) {
-        //return engine.getTankDiesel().getFluid().isFluidEqual(fluid);
-        return Fluids.DIESEL.is(fluid);
+        return engine.getTankDiesel().getFluid().isFluidEqual(fluid);
+        //return Fluids.DIESEL.is(fluid);
     }
 
     @Override
     public boolean canProvidePulledFluid(EntityMinecart requester, FluidStack fluid) {
-        //return engine.getTankDiesel().getFluid().isFluidEqual(fluid);
-        return Fluids.DIESEL.is(fluid);
+        return engine.getTankDiesel().getFluid().isFluidEqual(fluid);
+        //Fluids.DIESEL;
+        //return Fluids.DIESEL.is(fluid);
     }
 
     @Override

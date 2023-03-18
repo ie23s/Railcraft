@@ -10,16 +10,22 @@
 
 package mods.railcraft.common.carts;
 
+import buildcraft.api.BCBlocks;
+import buildcraft.api.BCBlocks.Core;
+import buildcraft.api.BCItems;
 import mods.railcraft.client.render.carts.LocomotiveRenderType;
+import mods.railcraft.common.blocks.RailcraftBlocks;
 import mods.railcraft.common.blocks.charge.BlockBattery;
 import mods.railcraft.common.items.ItemCharge;
 import mods.railcraft.common.items.ItemGear;
 import mods.railcraft.common.items.Metal;
 import mods.railcraft.common.items.RailcraftItems;
+import mods.railcraft.common.plugins.buildcraft.BuildcraftPlugin;
 import mods.railcraft.common.plugins.color.EnumColor;
 import mods.railcraft.common.plugins.forge.CraftingPlugin;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 
 /**
  * Created by CovertJaguar on 8/30/2016 for Railcraft.
@@ -35,15 +41,15 @@ public class ItemLocoDiesel extends ItemLocomotive {
     public void defineRecipes() {
         super.defineRecipes();
         // TODO: make a recipe
-        // CraftingPlugin.addShapedRecipe(getStack(),
-        //         "LT ",
-        //         "DBD",
-        //         "GMG",
-        //         'L', Blocks.REDSTONE_LAMP,
-        //         'D', RailcraftItems.CHARGE, ItemCharge.EnumCharge.MOTOR,
-        //         'B', BlockBattery.RECHARGEABLE_BATTERY_ORE_TAG,
-        //         'M', Items.MINECART,
-        //         'G', RailcraftItems.GEAR, ItemGear.EnumGear.STEEL,
-        //         'T', RailcraftItems.PLATE, Metal.STEEL);
+        CraftingPlugin.addShapedRecipe(getStack(),
+                 "LD ",
+                 "TBT",
+                 "GMG",
+                 'L', Blocks.REDSTONE_LAMP,
+                 'D', new ItemStack(Core.ENGINE, 0, 2), // ДВС из BuildCraft
+                 'B', RailcraftBlocks.GLASS,
+                 'M', Items.MINECART,
+                 'G', RailcraftItems.GEAR, ItemGear.EnumGear.STEEL,
+                 'T', RailcraftItems.PLATE, Metal.STEEL);
     }
 }

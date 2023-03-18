@@ -376,12 +376,12 @@ class JarSigner extends SignJar {
         if (project.hasProperty('signingKeystore')) {
             keyStore = project.signingKeystore
         } else {
-            keyStore = System.getProperty("user.home") + '/.keystore'
+            keyStore = System.getProperty("user.home") + '/.keystore/railcraft.jks'
         }
     }
 }
 
-task signMainJar(type: JarSigner, dependsOn: 'jar') {
+task signMainJar(type: JarSigner, dependsOn: 'reobfJar') {
     inputFile = jar.getArchivePath()
     outputFile = jar.getArchivePath()
 }

@@ -60,6 +60,7 @@ public final class Game {
 
     static {
         Object obj = Launch.blackboard.get("fml.deobfuscatedEnvironment");
+        System.out.println(obj);
         OBFUSCATED = !(obj instanceof Boolean && ((Boolean) obj));
         DEVELOPMENT_VERSION = Railcraft.getVersion().matches(".*(alpha|beta|rc).*") || !OBFUSCATED;
         boolean foundBukkit = false;

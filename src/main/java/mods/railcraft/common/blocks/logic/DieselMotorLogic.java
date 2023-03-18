@@ -13,12 +13,16 @@ import mods.railcraft.common.blocks.TileRailcraft;
 import mods.railcraft.common.fluids.FluidTools;
 import mods.railcraft.common.fluids.Fluids;
 import mods.railcraft.common.fluids.tanks.FilteredTank;
+import mods.railcraft.common.fluids.tanks.SomeFilteredTank;
 import mods.railcraft.common.fluids.tanks.StandardTank;
 import mods.railcraft.common.gui.widgets.IIndicatorController;
 import mods.railcraft.common.gui.widgets.IndicatorController;
 import mods.railcraft.common.plugins.buildcraft.triggers.ITemperature;
 import mods.railcraft.common.util.steam.SteamConstants;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.Fluid;
+
+import java.util.Map;
 //import net.minecraftforge.fluids.FluidStack;
 
 public class DieselMotorLogic extends Logic implements ITemperature {
@@ -28,7 +32,7 @@ public class DieselMotorLogic extends Logic implements ITemperature {
     public static final int TICKS_PER_CYCLE = 10;
     private double temp = SteamConstants.COLD_TEMP;
     private double maxTemp = SteamConstants.MAX_HEAT_LOW;
-    private static final int maxConsumption = 10;
+    private static final int maxConsumption = 14;
     private int consumption = 0;
     protected byte burnCycle;
 
@@ -37,9 +41,24 @@ public class DieselMotorLogic extends Logic implements ITemperature {
 
     public DieselMotorLogic(Adapter adapter) {
         super(adapter);
-
-        tankDiesel = new FilteredTank(FluidTools.BUCKET_VOLUME * 16)
-                .setFilterFluid(Fluids.DIESEL);
+        Fluids[] validFuels = {
+                //     Fluids.FUEL,
+                //     Fluids.BIOFUEL,
+                //     Fluids.BIOETHANOL,
+                //     Fluids.BIODIESEL,
+                //     Fluids.DIESEL,
+                //     Fluids.GASOLINE,
+                //     Fluids.REFINED_OIL,
+                //     Fluids.REFINED_FUEL,
+                //     Fluids.REFINED_BIOFUEL,
+                Fluids.FUEL_DENSE,
+                Fluids.FUEL_MIXED_HEAVY,
+                Fluids.FUEL_LIGHT,
+                Fluids.FUEL_MIXED_LIGHT,
+                Fluids.FUEL_GASEOUS
+        };
+        tankDiesel = new SomeFilteredTank(FluidTools.BUCKET_VOLUME * 16)
+                .setFilterFluid(validFuels);
 
         addLogic(new FluidLogic(adapter)
                 .addTank(tankDiesel));
