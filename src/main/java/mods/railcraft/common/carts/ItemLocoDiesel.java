@@ -46,7 +46,7 @@ public class ItemLocoDiesel extends ItemLocomotive {
                  "TBT",
                  "GMG",
                  'L', Blocks.REDSTONE_LAMP,
-                 'D', new ItemStack(Core.ENGINE, 0, 2), // ДВС из BuildCraft
+                 'D', new ItemStack(Core.ENGINE, 1, 2), // ДВС из BuildCraft
                  'B', RailcraftBlocks.GLASS,
                  'M', Items.MINECART,
                  'G', RailcraftItems.GEAR, ItemGear.EnumGear.STEEL,
