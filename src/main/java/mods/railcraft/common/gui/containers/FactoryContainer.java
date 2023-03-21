@@ -136,6 +136,8 @@ public final class FactoryContainer {
                     return (C) ContainerLocomotiveSteamSolid.make(inv, (EntityLocomotiveSteamSolid) obj);
                 case LOCO_DIESEL:
                     return (C) ContainerLocomotiveDiesel.make(inv, (EntityLocomotiveDiesel) obj);
+                case LOCO_BIODIESEL:
+                    return (C) ContainerLocomotiveBiodiesel.make(inv, (EntityLocomotiveBiodiesel) obj);
                 case LOCO_ELECTRIC:
                     return (C) ContainerLocomotiveElectric.make(inv, (EntityLocomotiveElectric) obj);
                 case LOCO_CREATIVE:

@@ -9,44 +9,45 @@
  -----------------------------------------------------------------------------*/
 package mods.railcraft.common.carts;
 
-import mods.railcraft.client.render.carts.LocomotiveRenderType;
-import mods.railcraft.common.gui.EnumGui;
-import mods.railcraft.common.items.ItemTicket;
-import mods.railcraft.common.util.inventory.InvTools;
-import mods.railcraft.common.util.inventory.wrappers.InventoryMapper;
+import mods.railcraft.api.carts.CartToolsAPI;
 import mods.railcraft.api.carts.IFluidCart;
-import mods.railcraft.client.util.effects.ClientEffects;
+import mods.railcraft.client.render.carts.LocomotiveRenderType;
+import mods.railcraft.common.blocks.logic.BiodieselMotorLogic;
+import mods.railcraft.common.blocks.logic.BiodieselMotorLogic.BiodieselMotorData;
+import mods.railcraft.common.blocks.logic.DieselMotorLogic;
+import mods.railcraft.common.blocks.logic.FluidLogic;
+import mods.railcraft.common.blocks.logic.Logic;
 import mods.railcraft.common.fluids.FluidItemHelper;
 import mods.railcraft.common.fluids.FluidTools;
 import mods.railcraft.common.fluids.FluidTools.ProcessType;
 import mods.railcraft.common.fluids.Fluids;
 import mods.railcraft.common.fluids.TankManager;
-import mods.railcraft.common.blocks.logic.*;
-import mods.railcraft.common.blocks.logic.DieselMotorLogic.DieselMotorData;
+import mods.railcraft.common.gui.EnumGui;
+import mods.railcraft.common.items.ItemTicket;
+import mods.railcraft.common.plugins.forge.DataManagerPlugin;
+import mods.railcraft.common.plugins.forge.NBTPlugin;
+import mods.railcraft.common.util.inventory.InvTools;
+import mods.railcraft.common.util.inventory.wrappers.InventoryMapper;
+import mods.railcraft.common.util.misc.Game;
 import mods.railcraft.common.util.sounds.RailcraftSoundEvents;
 import mods.railcraft.common.util.steam.SteamConstants;
 import net.minecraft.entity.item.EntityMinecart;
-import mods.railcraft.api.carts.CartToolsAPI;
-import mods.railcraft.common.plugins.forge.DataManagerPlugin;
-import mods.railcraft.common.plugins.forge.NBTPlugin;
-import net.minecraft.nbt.NBTTagCompound;
-import mods.railcraft.common.util.misc.Game;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Optional;
 
-public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCart, ISidedInventory {
+public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFluidCart, ISidedInventory {
     /*
     ISSUES:
         1. when switched from shutdown mode directly to running, the locomotive stays off
@@ -58,7 +59,7 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
         7. DONE - fix consumption system
         8. make a crafting recipe
         9. translate newly added items
-    
+
     */
 
     public static final int SLOT_DIESEL_INPUT = 0;
@@ -70,18 +71,18 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
     private static final int FUEL_PER_REQUEST = 3;
     protected static final int CAPACITY = FluidTools.BUCKET_VOLUME * 16;
     private FluidTools.ProcessState processState = FluidTools.ProcessState.RESET;
-    public final DieselMotorLogic engine;
+    public final BiodieselMotorLogic engine;
     private static final int[] SLOTS = InvTools.buildSlotArray(0, 3);
     private final IInventory invTicket = new InventoryMapper(this, SLOT_TICKET, 2).ignoreItemChecks();
 
 
     @SuppressWarnings("unused")
-    public EntityLocomotiveDiesel(World world) {
+    public EntityLocomotiveBiodiesel(World world) {
         super(world);
     }
 
     @SuppressWarnings("unused")
-    public EntityLocomotiveDiesel(World world, double x, double y, double z) {
+    public EntityLocomotiveBiodiesel(World world, double x, double y, double z) {
         super(world, x, y, z);
     }
     
@@ -90,10 +91,10 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
 
         Logic.Adapter adapter = Logic.Adapter.of(this);
 
-        engine = new DieselMotorLogic(adapter);
+        engine = new BiodieselMotorLogic(adapter);
         logic = engine;
-        engine.setMotorData(new DieselMotorData(
-                DieselMotorLogic.TICKS_PER_CYCLE,
+        engine.setMotorData(new BiodieselMotorData(
+                BiodieselMotorLogic.TICKS_PER_CYCLE,
                 SteamConstants.MAX_HEAT_LOW,
                 6, 0));
 
@@ -102,12 +103,12 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
 
     @Override
     public IRailcraftCartContainer getCartType() {
-        return RailcraftCarts.LOCO_DIESEL;
+        return RailcraftCarts.LOCO_BIODIESEL;
     }
 
     @Override
     public LocomotiveRenderType getRenderType() {
-        return LocomotiveRenderType.DIESEL;
+        return LocomotiveRenderType.BIODIESEL;
     }
 
     @Override
@@ -169,8 +170,8 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
         //System.out.println(fluid.getName());
         //System.out.println(FluidRegistry.getFluid("fuel_dense").getName());
 
-        //return Fluids.FUEL_DENSE.is(fluid);
-
+        return Fluids.BIODIESEL.is(fluid);
+        /*
         Fluids[] validFuels = {
         //     Fluids.FUEL,
         //     Fluids.BIOFUEL,
@@ -189,11 +190,13 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
         };
 
         return Arrays.stream(validFuels).anyMatch(fuel -> Fluids.areEqual(fluid, fuel.get(1)));
+    */
     }
+
 
     @Override
     protected Optional<EnumGui> getGuiType() {
-        return EnumGui.LOCO_DIESEL.op();
+        return EnumGui.LOCO_BIODIESEL.op();
     }
 
     @Override
@@ -220,7 +223,7 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
 
     @Override
     protected ItemStack getCartItemBase() {
-        return RailcraftCarts.LOCO_DIESEL.getStack();
+        return RailcraftCarts.LOCO_BIODIESEL.getStack();
     }
 
     public TankManager getTankManager() {
@@ -245,13 +248,13 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
                         this.engine.setConsumption(2);
                         break;
                     case SLOWER:
-                        this.engine.setConsumption(6);
+                        this.engine.setConsumption(4);
                         break;
                     case NORMAL:
-                        this.engine.setConsumption(10);
+                        this.engine.setConsumption(8);
                         break;
                     default:
-                        this.engine.setConsumption(14);
+                        this.engine.setConsumption(10);
                 }
             } else if (isIdle()) {
                 this.engine.setConsumption(1);
@@ -259,7 +262,7 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
                 this.engine.setConsumption(0);
             }
 
-            setSmoking(engine.isRunning());
+            //setSmoking(engine.isRunning());
 
             processState = FluidTools.processContainer(this, getTankManager(), ProcessType.DRAIN_ONLY, processState);
 
@@ -273,25 +276,17 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
                 }
             }
 
-        } else {
-            if (isSmoking()) {
-                double rads = renderYaw * Math.PI / 180D;
-                float offset = 0.4f;
-                float offsetZ = -0.20f;
-                ClientEffects.INSTANCE.dieselSmokeEffect(world, posX - Math.cos(rads) * offset, posY + 1.2f,
-                        posZ - Math.sin(rads) * offsetZ);
-            }
         }
     }
 
     // @SuppressWarnings("WeakerAccess")
-    public boolean isSmoking() {
-        return dataManager.get(SMOKE);
-    }
-
-    private void setSmoking(boolean smoke) {
-        dataManager.set(SMOKE, smoke);
-    }
+//    public boolean isSmoking() {
+//        return dataManager.get(SMOKE);
+//    }
+//
+//    private void setSmoking(boolean smoke) {
+//        dataManager.set(SMOKE, smoke);
+//    }
 
     // @Override
     // public double getTemp() {

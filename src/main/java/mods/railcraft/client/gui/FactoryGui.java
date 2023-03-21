@@ -185,6 +185,8 @@ public class FactoryGui {
                     return new GuiLocomotiveSteamSolid(inv, (EntityLocomotiveSteamSolid) obj);
                 case LOCO_DIESEL:
                     return new GuiLocomotiveDiesel(inv, (EntityLocomotiveDiesel) obj);
+                case LOCO_BIODIESEL:
+                    return new GuiLocomotiveBiodiesel(inv, (EntityLocomotiveBiodiesel) obj);
                 case LOCO_ELECTRIC:
                     return new GuiLocomotiveElectric(inv, (EntityLocomotiveElectric) obj);
                 case LOCO_CREATIVE:

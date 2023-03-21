@@ -59,6 +59,7 @@ public enum EnumGui {
     LOCO_CREATIVE(true),
     LOCO_ELECTRIC(true),
     LOCO_DIESEL(true),
+    LOCO_BIODIESEL(true),
     LOCO_STEAM(true),
     MANIPULATOR_FLUID(true),
     MANIPULATOR_ITEM(true),

@@ -36,6 +36,7 @@ public class ModuleLocomotives extends RailcraftModulePayload {
                 TrackKits.THROTTLE,
                 RailcraftCarts.LOCO_STEAM_SOLID,
                 RailcraftCarts.LOCO_DIESEL,
+                RailcraftCarts.LOCO_BIODIESEL,
                 RailcraftCarts.LOCO_ELECTRIC,
                 RailcraftCarts.LOCO_CREATIVE
         );
@@ -57,6 +58,7 @@ public class ModuleLocomotives extends RailcraftModulePayload {
                         || !(entity instanceof EntityLocomotive) || ((EntityLocomotive) entity).isShutdown()) ? 0 : lightLevel;
                 plugin.registerEntityLightSource(EntityLocomotiveSteamSolid.class, lightCalculator);
                 plugin.registerEntityLightSource(EntityLocomotiveDiesel.class, lightCalculator);
+                plugin.registerEntityLightSource(EntityLocomotiveBiodiesel.class, lightCalculator);
                 plugin.registerEntityLightSource(EntityLocomotiveElectric.class, lightCalculator);
                 plugin.registerEntityLightSource(EntityLocomotiveCreative.class, lightCalculator);
             }

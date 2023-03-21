@@ -13,19 +13,15 @@ import mods.railcraft.common.blocks.TileRailcraft;
 import mods.railcraft.common.fluids.FluidTools;
 import mods.railcraft.common.fluids.Fluids;
 import mods.railcraft.common.fluids.tanks.FilteredTank;
-import mods.railcraft.common.fluids.tanks.SomeFilteredTank;
 import mods.railcraft.common.fluids.tanks.StandardTank;
 import mods.railcraft.common.gui.widgets.IIndicatorController;
 import mods.railcraft.common.gui.widgets.IndicatorController;
 import mods.railcraft.common.plugins.buildcraft.triggers.ITemperature;
 import mods.railcraft.common.util.steam.SteamConstants;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.Fluid;
-
-import java.util.Map;
 //import net.minecraftforge.fluids.FluidStack;
 
-public class DieselMotorLogic extends Logic implements ITemperature {
+public class BiodieselMotorLogic extends Logic implements ITemperature {
 
     public final IIndicatorController heatIndicator = new HeatIndicator();
     public final StandardTank tankDiesel;
@@ -37,28 +33,28 @@ public class DieselMotorLogic extends Logic implements ITemperature {
     protected byte burnCycle;
 
     private TileRailcraft tile;
-    private DieselMotorData motorData = DieselMotorData.EMPTY;
+    private BiodieselMotorData motorData = BiodieselMotorData.EMPTY;
 
-    public DieselMotorLogic(Adapter adapter) {
+    public BiodieselMotorLogic(Adapter adapter) {
         super(adapter);
-        Fluids[] validFuels = {
-                //     Fluids.FUEL,
-                //     Fluids.BIOFUEL,
-                //     Fluids.BIOETHANOL,
-                //     Fluids.BIODIESEL,
-                //     Fluids.DIESEL,
-                //     Fluids.GASOLINE,
-                //     Fluids.REFINED_OIL,
-                //     Fluids.REFINED_FUEL,
-                //     Fluids.REFINED_BIOFUEL,
-                Fluids.FUEL_DENSE,
-                Fluids.FUEL_MIXED_HEAVY,
-                Fluids.FUEL_LIGHT,
-                Fluids.FUEL_MIXED_LIGHT,
-                Fluids.FUEL_GASEOUS
-        };
-        tankDiesel = new SomeFilteredTank(FluidTools.BUCKET_VOLUME * 16)
-                .setFilterFluid(validFuels);
+//        Fluids[] validFuels = {
+//                //     Fluids.FUEL,
+//                //     Fluids.BIOFUEL,
+//                //     Fluids.BIOETHANOL,
+//                //     Fluids.BIODIESEL,
+//                //     Fluids.DIESEL,
+//                //     Fluids.GASOLINE,
+//                //     Fluids.REFINED_OIL,
+//                //     Fluids.REFINED_FUEL,
+//                //     Fluids.REFINED_BIOFUEL,
+//                Fluids.FUEL_DENSE,
+//                Fluids.FUEL_MIXED_HEAVY,
+//                Fluids.FUEL_LIGHT,
+//                Fluids.FUEL_MIXED_LIGHT,
+//                Fluids.FUEL_GASEOUS
+//        };
+        tankDiesel = new FilteredTank(FluidTools.BUCKET_VOLUME * 16)
+                .setFilterFluid(Fluids.BIOETHANOL);
 
         addLogic(new FluidLogic(adapter)
                 .addTank(tankDiesel));
@@ -69,10 +65,10 @@ public class DieselMotorLogic extends Logic implements ITemperature {
     public void onStructureChanged(boolean isComplete, boolean isMaster, Object[] data) {
         super.onStructureChanged(isComplete, isMaster, data);
         if (isComplete) {
-            motorData = ((DieselMotorData) data[0]);
+            motorData = ((BiodieselMotorData) data[0]);
             tankDiesel.setCapacity(FluidTools.BUCKET_VOLUME * motorData.diesel);
         } else
-            motorData = DieselMotorData.EMPTY;
+            motorData = BiodieselMotorData.EMPTY;
     }
 
     @Override
@@ -84,8 +80,8 @@ public class DieselMotorLogic extends Logic implements ITemperature {
          *  2       8 mB/sec
          *  3      12 mB/sec
          *  4      16 mB/sec
-         *
-         *  this is calculated to reach 10 km of distance at speed 4 (10 m/s)
+         * 
+         *  this is calculated to reach 10 km of distance at speed 4 (10 m/s) 
          *  with tank size 16 buckets
          */
 
@@ -94,7 +90,7 @@ public class DieselMotorLogic extends Logic implements ITemperature {
             //idle mode should use 1 mB per 2 seconds
             if (burnCycle >= TICKS_PER_CYCLE * (consumption == 1 ? 4 : 1)) {
                 burnCycle = 0;
-                //FluidStack diesel =
+                //FluidStack diesel = 
                 tankDiesel.drainInternal(consumption, true);
                 // if (diesel == null) {
                 //     //shut down engine
@@ -103,7 +99,7 @@ public class DieselMotorLogic extends Logic implements ITemperature {
                 // }
                 // increaseTemp();
             }
-        }
+        } 
         else{
             // reduceTemp();
         }
@@ -114,15 +110,15 @@ public class DieselMotorLogic extends Logic implements ITemperature {
         return tankDiesel;
     }
 
-    public DieselMotorData getMotorData() {
+    public BiodieselMotorData getMotorData() {
         return motorData;
     }
 
-    public void setMotorData(DieselMotorData motorData) {
+    public void setMotorData(BiodieselMotorData motorData) {
         this.motorData = motorData;
     }
 
-    public DieselMotorLogic setTile(TileRailcraft tile) {
+    public BiodieselMotorLogic setTile(TileRailcraft tile) {
         this.tile = tile;
         return this;
     }
@@ -244,16 +240,16 @@ public class DieselMotorLogic extends Logic implements ITemperature {
         }
     }
 
-    public static final class DieselMotorData {
+    public static final class BiodieselMotorData {
 
-        public static final DieselMotorData EMPTY = new DieselMotorData(0, 0f, 0, 0);
+        public static final BiodieselMotorData EMPTY = new BiodieselMotorData(0, 0f, 0, 0);
 
         public final int ticksPerCycle;
         public final float maxHeat;
         public final int diesel;
         public final int consumption;
 
-        public DieselMotorData(int ticks, float heat, int diesel, int consumption) {
+        public BiodieselMotorData(int ticks, float heat, int diesel, int consumption) {
             this.ticksPerCycle = ticks;
             this.maxHeat = heat;
             this.diesel = diesel;
