@@ -37,6 +37,8 @@ allprojects {
         options.fork = true
         options.incremental = true
     }
+    def build = System.getProperty("build.number", "");
+    project.version = project.version + build;
 
     version = project.version
 }
