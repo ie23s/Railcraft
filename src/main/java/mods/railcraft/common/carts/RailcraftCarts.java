@@ -121,7 +121,7 @@ public enum RailcraftCarts implements IRailcraftCartContainer {
             //conditions().add(ModuleCharge.class);
         }
     },
-    LOCO_BIODIESEL(1, "locomotive_biodiesel", EntityLocomotiveBiodiesel.class, EntityLocomotiveBiodiesel::new, ItemLocoDiesel::new) {
+    LOCO_BIODIESEL(1, "locomotive_biodiesel", EntityLocomotiveBiodiesel.class, EntityLocomotiveBiodiesel::new, ItemLocoBiodiesel::new) {
         {
             conditions().add(ModuleLocomotives.class);
             //add some liquid module?
