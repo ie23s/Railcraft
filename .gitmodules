@@ -1,6 +1,6 @@
 [submodule "lang"]
 	path = lang
-	url = https://github.com/Railcraft/Railcraft-Localization.git
+	url = https://github.com/ie23s/Railcraft-Localization.git
 [submodule "api/railcraft"]
 	path = api-railcraft
 	url = https://github.com/Railcraft/Railcraft-API.git
