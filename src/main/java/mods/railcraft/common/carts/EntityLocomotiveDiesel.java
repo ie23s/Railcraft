@@ -251,6 +251,7 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
                         this.engine.setConsumption(10);
                         break;
                     default:
+                        this.engine.setConsumption(1);
                         this.engine.setConsumption(14);
                 }
             } else if (isIdle()) {
@@ -276,9 +277,9 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
         } else {
             if (isSmoking()) {
                 double rads = renderYaw * Math.PI / 180D;
-                float offset = 0.4f;
+                float offset = 1.4f;
                 float offsetZ = -0.20f;
-                ClientEffects.INSTANCE.dieselSmokeEffect(world, posX - Math.cos(rads) * offset, posY + 3.2f,
+                ClientEffects.INSTANCE.dieselSmokeEffect(world, posX - Math.cos(rads) * offset, posY + 1.2f,
                         posZ - Math.sin(rads) * offsetZ);
             }
         }
