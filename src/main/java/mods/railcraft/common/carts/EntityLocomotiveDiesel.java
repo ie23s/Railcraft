@@ -232,10 +232,10 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
         super.onUpdate();
 
         if (Game.isHost(world)) {
-            if (engine.tankDiesel.isEmpty()) {
-                setMode(LocoMode.SHUTDOWN);
-                this.engine.setConsumption(0);
-            }
+//            if (engine.tankDiesel.isEmpty()) {
+//                setMode(LocoMode.SHUTDOWN);
+//                this.engine.setConsumption(0);
+//            }
 
             //here i would like to use EntityLocomotive.getFuelUse(), but it is private
             if (isRunning()) {
@@ -251,7 +251,6 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
                         this.engine.setConsumption(10);
                         break;
                     default:
-                        this.engine.setConsumption(1);
                         this.engine.setConsumption(14);
                 }
             } else if (isIdle()) {
@@ -278,7 +277,7 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
             if (isSmoking()) {
                 double rads = renderYaw * Math.PI / 180D;
                 float offset = 1.4f;
-                float offsetZ = -0.20f;
+                float offsetZ = -1.60f;
                 ClientEffects.INSTANCE.dieselSmokeEffect(world, posX - Math.cos(rads) * offset, posY + 1.2f,
                         posZ - Math.sin(rads) * offsetZ);
             }

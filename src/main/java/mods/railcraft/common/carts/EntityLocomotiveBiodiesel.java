@@ -43,6 +43,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.jline.utils.Log;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -245,6 +246,7 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
             //here i would like to use EntityLocomotive.getFuelUse(), but it is private
             if (isRunning()) {
                 LocoSpeed speed = getSpeed();
+                Log.info("Loco speed is " + speed.getLevel());
                 switch (speed) {
                     case SLOWEST:
                         this.engine.setConsumption(2);

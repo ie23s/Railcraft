@@ -143,8 +143,8 @@ public class DieselMotorLogic extends Logic implements ITemperature {
 
     public void setTemp(double temp) {
         this.temp = temp;
-        if (this.temp < SteamConstants.BOILING_POINT)
-            this.temp = SteamConstants.BOILING_POINT;
+        if (this.temp < SteamConstants.COLD_TEMP)
+            this.temp = SteamConstants.COLD_TEMP;
     }
 
     public boolean isRunning() {
