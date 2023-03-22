@@ -9,9 +9,11 @@
  -----------------------------------------------------------------------------*/
 package mods.railcraft.common.gui.containers;
 
+import mods.railcraft.common.carts.EntityLocomotiveBiodiesel;
 import mods.railcraft.common.carts.EntityLocomotiveDiesel;
 import mods.railcraft.common.gui.slots.SlotOutput;
 import mods.railcraft.common.gui.slots.SlotRailcraft;
+//import mods.railcraft.common.gui.slots.SlotWaterLimited;
 import mods.railcraft.common.gui.widgets.FluidGaugeWidget;
 import mods.railcraft.common.gui.widgets.IndicatorWidget;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -24,14 +26,14 @@ import net.minecraft.inventory.IContainerListener;
 
 public class ContainerLocomotiveBiodiesel extends ContainerLocomotive {
 
-    private final EntityLocomotiveDiesel loco;
+    private final EntityLocomotiveBiodiesel loco;
 
-    private ContainerLocomotiveBiodiesel(InventoryPlayer playerInv, EntityLocomotiveDiesel loco) {
+    private ContainerLocomotiveBiodiesel(InventoryPlayer playerInv, EntityLocomotiveBiodiesel loco) {
         super(playerInv, loco, 205);
         this.loco = loco;
     }
 
-    public static ContainerLocomotiveBiodiesel make(InventoryPlayer playerInv, EntityLocomotiveDiesel loco) {
+    public static ContainerLocomotiveBiodiesel make(InventoryPlayer playerInv, EntityLocomotiveBiodiesel loco) {
         ContainerLocomotiveBiodiesel con = new ContainerLocomotiveBiodiesel(playerInv, loco);
         con.init();
         return con;
