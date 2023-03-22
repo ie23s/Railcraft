@@ -246,7 +246,7 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
             //here i would like to use EntityLocomotive.getFuelUse(), but it is private
             if (isRunning()) {
                 LocoSpeed speed = getSpeed();
-                Log.info("Loco speed is " + speed.getLevel());
+                System.out.println("Loco speed is " + speed.getLevel());
                 switch (speed) {
                     case SLOWEST:
                         this.engine.setConsumption(2);
