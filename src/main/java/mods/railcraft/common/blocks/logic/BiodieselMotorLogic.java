@@ -13,6 +13,7 @@ import mods.railcraft.common.blocks.TileRailcraft;
 import mods.railcraft.common.fluids.FluidTools;
 import mods.railcraft.common.fluids.Fluids;
 import mods.railcraft.common.fluids.tanks.FilteredTank;
+import mods.railcraft.common.fluids.tanks.SomeFilteredTank;
 import mods.railcraft.common.fluids.tanks.StandardTank;
 import mods.railcraft.common.gui.widgets.IIndicatorController;
 import mods.railcraft.common.gui.widgets.IndicatorController;
@@ -37,7 +38,11 @@ public class BiodieselMotorLogic extends Logic implements ITemperature {
 
     public BiodieselMotorLogic(Adapter adapter) {
         super(adapter);
-//        Fluids[] validFuels = {
+        Fluids[] validFuels = {
+                Fluids.BIOFUEL,
+                Fluids.BIOETHANOL,
+                Fluids.BIODIESEL,
+                Fluids.IC2BIOGAS
 //                //     Fluids.FUEL,
 //                //     Fluids.BIOFUEL,
 //                //     Fluids.BIOETHANOL,
@@ -52,9 +57,9 @@ public class BiodieselMotorLogic extends Logic implements ITemperature {
 //                Fluids.FUEL_LIGHT,
 //                Fluids.FUEL_MIXED_LIGHT,
 //                Fluids.FUEL_GASEOUS
-//        };
-        tankDiesel = new FilteredTank(FluidTools.BUCKET_VOLUME * 16)
-                .setFilterFluid(Fluids.BIOETHANOL);
+        };
+        tankDiesel = new SomeFilteredTank(FluidTools.BUCKET_VOLUME * 16)
+                .setFilterFluid(validFuels);
 
         addLogic(new FluidLogic(adapter)
                 .addTank(tankDiesel));

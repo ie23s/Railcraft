@@ -44,6 +44,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Optional;
 
@@ -170,27 +171,28 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
         //System.out.println(fluid.getName());
         //System.out.println(FluidRegistry.getFluid("fuel_dense").getName());
 
-        return Fluids.BIODIESEL.is(fluid);
-        /*
+
         Fluids[] validFuels = {
         //     Fluids.FUEL,
-        //     Fluids.BIOFUEL,
-        //     Fluids.BIOETHANOL,
-        //     Fluids.BIODIESEL,
+             Fluids.BIOFUEL,
+             Fluids.BIOETHANOL,
+             Fluids.BIODIESEL,
+                Fluids.IC2BIOGAS,
+
         //     Fluids.DIESEL,
         //     Fluids.GASOLINE,
         //     Fluids.REFINED_OIL,
         //     Fluids.REFINED_FUEL,
         //     Fluids.REFINED_BIOFUEL,
-             Fluids.FUEL_DENSE,
-             Fluids.FUEL_MIXED_HEAVY,
-             Fluids.FUEL_LIGHT,
-             Fluids.FUEL_MIXED_LIGHT,
-             Fluids.FUEL_GASEOUS
+//             Fluids.FUEL_DENSE,
+//             Fluids.FUEL_MIXED_HEAVY,
+//             Fluids.FUEL_LIGHT,
+//             Fluids.FUEL_MIXED_LIGHT,
+//             Fluids.FUEL_GASEOUS
         };
 
         return Arrays.stream(validFuels).anyMatch(fuel -> Fluids.areEqual(fluid, fuel.get(1)));
-    */
+
     }
 
 
