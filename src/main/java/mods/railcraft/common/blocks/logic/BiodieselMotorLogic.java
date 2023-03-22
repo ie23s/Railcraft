@@ -29,7 +29,7 @@ public class BiodieselMotorLogic extends Logic implements ITemperature {
     public static final int TICKS_PER_CYCLE = 10;
     private double temp = SteamConstants.COLD_TEMP;
     private double maxTemp = SteamConstants.MAX_HEAT_LOW;
-    private static final int maxConsumption = 14;
+    private static final int maxConsumption = 10;
     private int consumption = 0;
     protected byte burnCycle;
 
@@ -102,11 +102,11 @@ public class BiodieselMotorLogic extends Logic implements ITemperature {
                 //     this.consumption = 0;
                 //     return;
                 // }
-                // increaseTemp();
+                increaseTemp();
             }
         } 
         else{
-            // reduceTemp();
+            reduceTemp();
         }
 
     }
@@ -149,10 +149,7 @@ public class BiodieselMotorLogic extends Logic implements ITemperature {
     }
 
     public boolean isRunning() {
-        if (this.consumption > 0 && !this.tankDiesel.isEmpty()) {
-            return true;
-        }
-        return false;
+        return consumption > 0 && !tankDiesel.isEmpty();
     }
 
     public int getConsumption(){
@@ -171,26 +168,24 @@ public class BiodieselMotorLogic extends Logic implements ITemperature {
     //     return temp / getMaxTemp();
     // }
 
-    // public void increaseTemp() {
-    //     double max = getMaxTemp();
-    //     if (temp == max)
-    //         return;
-    //     double step = getHeatStep();
-    //     double change = step + (((max - temp) / max) * step * 3);
-    //     change /= boilerData.numTanks;
-    //     temp += change;
-    //     temp = Math.min(temp, max);
-    // }
+     public void increaseTemp() {
+         double max = SteamConstants.BOILING_POINT;
+         if (temp == max)
+             return;
+         double step = SteamConstants.HEAT_STEP;
+         temp += step;
+         temp = Math.min(temp, max);
+     }
 
-    // public void reduceTemp() {
-    //     if (temp == SteamConstants.COLD_TEMP)
-    //         return;
-    //     double step = SteamConstants.HEAT_STEP;
+     public void reduceTemp() {
+         if (temp == SteamConstants.COLD_TEMP)
+             return;
+         double step = SteamConstants.HEAT_STEP;
     //     double change = step + ((temp / getMaxTemp()) * step * 3);
     //     change /= boilerData.numTanks;
-    //     temp -= change;
-    //     temp = Math.max(temp, SteamConstants.COLD_TEMP);
-    // }
+         temp -= step;
+         temp = Math.max(temp, SteamConstants.COLD_TEMP);
+    }
 
     // @Override
     // public boolean isHot() {

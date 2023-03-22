@@ -238,7 +238,7 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
 
         if (Game.isHost(world)) {
             if (engine.tankDiesel.isEmpty()) {
-                setMode(LocoMode.SHUTDOWN);
+                //setMode(LocoMode.SHUTDOWN);
                 this.engine.setConsumption(0);
             }
 
