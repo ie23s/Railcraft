@@ -276,10 +276,8 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
         } else {
             if (isSmoking()) {
                 double rads = renderYaw * Math.PI / 180D;
-                float offset = 1.4f;
-                float offsetZ = 0.20f;
-                ClientEffects.INSTANCE.dieselSmokeEffect(world, posX - Math.cos(rads) * offset, posY + 1.2f,
-                        posZ - Math.sin(rads) * offsetZ);
+                float offset = 0.4f;
+                ClientEffects.INSTANCE.locomotiveEffect(world, posX - Math.cos(rads) * offset, posY + 1.5f, posZ - Math.sin(rads) * offset);
             }
         }
     }

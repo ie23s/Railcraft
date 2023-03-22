@@ -14,7 +14,6 @@ import mods.railcraft.api.carts.IFluidCart;
 import mods.railcraft.client.render.carts.LocomotiveRenderType;
 import mods.railcraft.common.blocks.logic.BiodieselMotorLogic;
 import mods.railcraft.common.blocks.logic.BiodieselMotorLogic.BiodieselMotorData;
-import mods.railcraft.common.blocks.logic.DieselMotorLogic;
 import mods.railcraft.common.blocks.logic.FluidLogic;
 import mods.railcraft.common.blocks.logic.Logic;
 import mods.railcraft.common.fluids.FluidItemHelper;
@@ -43,7 +42,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import org.jline.utils.Log;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -243,6 +241,8 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
                 this.engine.setConsumption(0);
             }
 
+            LocoMode mode = getMode();
+            System.out.println("Loco mode is " + mode.getName());
             //here i would like to use EntityLocomotive.getFuelUse(), but it is private
             if (isRunning()) {
                 LocoSpeed speed = getSpeed();
