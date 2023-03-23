@@ -242,9 +242,6 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
             }
 
             LocoMode mode = getMode();
-            System.out.println("Loco mode is " + mode.getName());
-            System.out.println("mode = " + getMode() + " idle = " + isIdle() + " down = " + isShutdown());
-            System.out.println("mode = " + isRunning());
             //here i would like to use EntityLocomotive.getFuelUse(), but it is private
             if (getMode().equals(LocoMode.RUNNING)) {
                 LocoSpeed speed = getSpeed();

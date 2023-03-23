@@ -12,6 +12,7 @@ package mods.railcraft.common.carts;
 
 import buildcraft.api.BCBlocks.Core;
 import forestry.api.core.ForestryAPI;
+import ic2.api.item.IC2Items;
 import mods.railcraft.client.render.carts.LocomotiveRenderType;
 import mods.railcraft.common.blocks.RailcraftBlocks;
 import mods.railcraft.common.items.ItemGear;
@@ -40,14 +41,24 @@ public class ItemLocoBiodiesel extends ItemLocomotive {
         super.defineRecipes();
         // TODO: make a recipe
         CraftingPlugin.addShapedRecipe(getStack(),
-                 "LD ",
-                 "TBT",
-                 "GMG",
-                 'L', Blocks.REDSTONE_LAMP,
-                 'D', ForestryPlugin.getItem("Engine"), // ДВС из BuildCraft
-                 'B', RailcraftBlocks.GLASS,
-                 'M', Items.MINECART,
-                 'G', RailcraftItems.GEAR, ItemGear.EnumGear.STEEL,
-                 'T', RailcraftItems.PLATE, Metal.STEEL);
+                "LD ",
+                "TBT",
+                "GMG",
+                'L', Blocks.REDSTONE_LAMP,
+                'D', ForestryPlugin.getItem("engine_biogas"), // ДВС из BuildCraft
+                'B', RailcraftBlocks.GLASS,
+                'M', Items.MINECART,
+                'G', RailcraftItems.GEAR, ItemGear.EnumGear.STEEL,
+                'T', RailcraftItems.PLATE, Metal.STEEL);
+        CraftingPlugin.addShapedRecipe(getStack(),
+                "LD ",
+                "TBT",
+                "GMG",
+                'L', Blocks.REDSTONE_LAMP,
+                'D', IC2Items.getItem("generator"), // ДВС из BuildCraft
+                'B', RailcraftBlocks.GLASS,
+                'M', Items.MINECART,
+                'G', RailcraftItems.GEAR, ItemGear.EnumGear.STEEL,
+                'T', RailcraftItems.PLATE, Metal.STEEL);
     }
 }
