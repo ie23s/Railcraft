@@ -267,6 +267,11 @@ public class ClientEffects implements IPairEffectRenderer, Charge.IZapEffectRend
             return;
         spawnParticle(new ParticleLocomotive(world, new Vec3d(x, y, z), new Vec3d(0, 0, 0), 0.5f));
     }
+    public void biodieselSmokeEffect(World world, double x, double y, double z) {
+        if (thinParticles(false))
+            return;
+        spawnParticle(new ParticleLocomotive(world, new Vec3d(x, y, z), new Vec3d(0, 0, 0), 0.1f));
+    }
 
     @Override
     public void zapEffectPoint(World world, Object source) {

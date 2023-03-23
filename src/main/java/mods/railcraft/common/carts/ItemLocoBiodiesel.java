@@ -25,6 +25,7 @@ import mods.railcraft.common.plugins.forge.CraftingPlugin;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
 
 /**
  * Created by CovertJaguar on 8/30/2016 for Railcraft.
@@ -45,17 +46,19 @@ public class ItemLocoBiodiesel extends ItemLocomotive {
                 "TBT",
                 "GMG",
                 'L', Blocks.REDSTONE_LAMP,
-                'D', ForestryPlugin.getItem("engine_biogas"), // ДВС из BuildCraft
+                'D', ForestryPlugin.getItem("engine_biogas"),
                 'B', RailcraftBlocks.GLASS,
                 'M', Items.MINECART,
                 'G', RailcraftItems.GEAR, ItemGear.EnumGear.STEEL,
                 'T', RailcraftItems.PLATE, Metal.STEEL);
-        CraftingPlugin.addShapedRecipe(getStack(),
+
+        if (Loader.isModLoaded("ic2"))
+            CraftingPlugin.addShapedRecipe(getStack(),
                 "LD ",
                 "TBT",
                 "GMG",
                 'L', Blocks.REDSTONE_LAMP,
-                'D', IC2Items.getItem("generator"), // ДВС из BuildCraft
+                'D', IC2Items.getItem("fluid_generator"),
                 'B', RailcraftBlocks.GLASS,
                 'M', Items.MINECART,
                 'G', RailcraftItems.GEAR, ItemGear.EnumGear.STEEL,

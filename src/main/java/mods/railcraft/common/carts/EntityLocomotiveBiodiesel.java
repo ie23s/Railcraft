@@ -12,6 +12,7 @@ package mods.railcraft.common.carts;
 import mods.railcraft.api.carts.CartToolsAPI;
 import mods.railcraft.api.carts.IFluidCart;
 import mods.railcraft.client.render.carts.LocomotiveRenderType;
+import mods.railcraft.client.util.effects.ClientEffects;
 import mods.railcraft.common.blocks.logic.BiodieselMotorLogic;
 import mods.railcraft.common.blocks.logic.BiodieselMotorLogic.BiodieselMotorData;
 import mods.railcraft.common.blocks.logic.FluidLogic;
@@ -279,17 +280,25 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
                 }
             }
 
+        } else {
+            if (isSmoking()) {
+                double rads = renderYaw * Math.PI / 180D;
+                float offset = -0.2f;
+                float offsetZ = -0.20f;
+                ClientEffects.INSTANCE.dieselSmokeEffect(world, posX - Math.cos(rads) * offset, posY + 1.2f,
+                        posZ - Math.sin(rads) * offsetZ);
+            }
         }
     }
 
-    // @SuppressWarnings("WeakerAccess")
-//    public boolean isSmoking() {
-//        return dataManager.get(SMOKE);
-//    }
-//
-//    private void setSmoking(boolean smoke) {
-//        dataManager.set(SMOKE, smoke);
-//    }
+     @SuppressWarnings("WeakerAccess")
+    public boolean isSmoking() {
+        return dataManager.get(SMOKE);
+    }
+
+    private void setSmoking(boolean smoke) {
+        dataManager.set(SMOKE, smoke);
+    }
 
     // @Override
     // public double getTemp() {
