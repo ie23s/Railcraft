@@ -238,15 +238,12 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
 
         if (Game.isHost(world)) {
             if (engine.tankDiesel.isEmpty()) {
-                //setMode(LocoMode.SHUTDOWN);
+                setMode(LocoMode.SHUTDOWN);
                 this.engine.setConsumption(0);
             }
 
-            LocoMode mode = getMode();
-            //here i would like to use EntityLocomotive.getFuelUse(), but it is private
-            if (getMode().equals(LocoMode.RUNNING)) {
+           if (getMode().equals(LocoMode.RUNNING)) {
                 LocoSpeed speed = getSpeed();
-                System.out.println("Loco speed is " + speed.getLevel());
                 switch (speed) {
                     case SLOWEST:
                         this.engine.setConsumption(2);
@@ -266,7 +263,7 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
                 this.engine.setConsumption(0);
             }
 
-            //setSmoking(engine.isRunning());
+            setSmoking(engine.isRunning());
 
             processState = FluidTools.processContainer(this, getTankManager(), ProcessType.DRAIN_ONLY, processState);
 
@@ -285,7 +282,7 @@ public class EntityLocomotiveBiodiesel extends EntityLocomotive implements IFlui
                 double rads = renderYaw * Math.PI / 180D;
                 float offset = -0.2f;
                 float offsetZ = -0.20f;
-                ClientEffects.INSTANCE.dieselSmokeEffect(world, posX - Math.cos(rads) * offset, posY + 1.2f,
+                ClientEffects.INSTANCE.biodieselSmokeEffect(world, posX - Math.cos(rads) * offset, posY + 1.2f,
                         posZ - Math.sin(rads) * offsetZ);
             }
         }

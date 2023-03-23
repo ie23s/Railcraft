@@ -270,7 +270,7 @@ public class ClientEffects implements IPairEffectRenderer, Charge.IZapEffectRend
     public void biodieselSmokeEffect(World world, double x, double y, double z) {
         if (thinParticles(false))
             return;
-        spawnParticle(new ParticleLocomotive(world, new Vec3d(x, y, z), new Vec3d(0, 0, 0), 0.1f));
+        spawnParticle(new ParticleLocomotive(world, new Vec3d(x, y, z), new Vec3d(0, 0, 0), 0.25f));
     }
 
     @Override

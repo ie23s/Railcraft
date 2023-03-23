@@ -228,10 +228,10 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
         super.onUpdate();
 
         if (Game.isHost(world)) {
-//            if (engine.tankDiesel.isEmpty()) {
-//                setMode(LocoMode.SHUTDOWN);
-//                this.engine.setConsumption(0);
-//            }
+            if (engine.tankDiesel.isEmpty()) {
+                setMode(LocoMode.SHUTDOWN);
+                this.engine.setConsumption(0);
+            }
 
             //here i would like to use EntityLocomotive.getFuelUse(), but it is private
 
