@@ -152,12 +152,8 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
                 //FluidStack fluidStack = FluidItemHelper.getFluidStackInContainer(stack);
                 // if (fluidStack != null && fluidStack.amount > FluidTools.BUCKET_VOLUME)
                 //     return false;
-                if (FluidItemHelper.isEmptyContainer(stack)
-                        || isFuelValid(FluidItemHelper.getFluidStackInContainer(stack).getFluid())
-                        ) {
-                    return true;
-                }
-                return false;
+                return FluidItemHelper.isEmptyContainer(stack)
+                        || isFuelValid(FluidItemHelper.getFluidStackInContainer(stack).getFluid());
             case SLOT_TICKET:
                 return ItemTicket.FILTER.test(stack);
             default:
@@ -238,22 +234,23 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
 //            }
 
             //here i would like to use EntityLocomotive.getFuelUse(), but it is private
-            if (isRunning()) {
+
+            if (getMode().equals(LocoMode.RUNNING)) {
                 LocoSpeed speed = getSpeed();
                 switch (speed) {
                     case SLOWEST:
                         this.engine.setConsumption(2);
                         break;
                     case SLOWER:
-                        this.engine.setConsumption(6);
+                        this.engine.setConsumption(4);
                         break;
                     case NORMAL:
-                        this.engine.setConsumption(10);
+                        this.engine.setConsumption(8);
                         break;
                     default:
-                        this.engine.setConsumption(14);
+                        this.engine.setConsumption(10);
                 }
-            } else if (isIdle()) {
+            } else if (getMode().equals(LocoMode.IDLE)) {
                 this.engine.setConsumption(1);
             } else {
                 this.engine.setConsumption(0);
@@ -276,7 +273,7 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
         } else {
             if (isSmoking()) {
                 double rads = renderYaw * Math.PI / 180D;
-                float offset = 1.4f;
+                float offset = -1.4f;
                 float offsetZ = -0.20f;
                 ClientEffects.INSTANCE.dieselSmokeEffect(world, posX - Math.cos(rads) * offset, posY + 1.2f,
                         posZ - Math.sin(rads) * offsetZ);
