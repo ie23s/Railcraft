@@ -149,11 +149,11 @@ public class EntityLocomotiveDiesel extends EntityLocomotive implements IFluidCa
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
         switch (slot) {
             case SLOT_DIESEL_INPUT:
-                //FluidStack fluidStack = FluidItemHelper.getFluidStackInContainer(stack);
+                FluidStack fluidStack = FluidItemHelper.getFluidStackInContainer(stack);
                 // if (fluidStack != null && fluidStack.amount > FluidTools.BUCKET_VOLUME)
                 //     return false;
                 return FluidItemHelper.isEmptyContainer(stack)
-                        || isFuelValid(FluidItemHelper.getFluidStackInContainer(stack).getFluid());
+                        ||fluidStack != null &&  isFuelValid(fluidStack.getFluid());
             case SLOT_TICKET:
                 return ItemTicket.FILTER.test(stack);
             default:
